@@ -1,7 +1,7 @@
 ---
-id: api-messages
+id: messages
 title: Messages
 sidebar_label: Messages
 ---
 
-todo
+TODO

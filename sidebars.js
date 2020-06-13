@@ -1,6 +1,13 @@
 module.exports = {
   someSidebar: {
-    Docs: ['introduction', 'getting-started', 'communication', 'files'],
-    API: ['api-messages', 'api-user-info']
+    'Getting Started': ['introduction', 'installation'],
+    'API': [
+      'messages',
+      'user-info',
+      'application-context',
+      'files',
+      'reachability',
+      'watch-state'
+    ]
   },
 };

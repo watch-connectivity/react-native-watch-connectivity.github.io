@@ -1,7 +1,7 @@
 ---
-id: api-user-info
+id: user-info
 title: User Info
 sidebar_label: User Info
 ---
 
-todo
+TODO
