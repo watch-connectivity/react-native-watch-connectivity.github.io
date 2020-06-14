@@ -81,7 +81,7 @@ the content is delivered. You do not need both apps to be reachable in order to 
 User info messages are queued & delivered in FIFO order. User info differs from [Application Context](/docs/communication#application-context) in that nothing
 is overridden. You will need to handle each piece of user info in order.
 
-#### Subscribe to user info from the Watch 
+#### Receive user info from the Watch 
 
 This library implements a queueing system in order to organise each piece of user info received from the watch. This ensures that all user info
 sent from the watch is accessible to the companion React Native app - even if that user info arrives BEFORE a user info
@@ -129,7 +129,7 @@ const unsubscribe = consumeUserInfo(
 )
 ```
 
-#### Transfer user info the watch
+#### Transfer user info to the watch
 
 To send user info to the watch you can use `transferUserInfo`:
 

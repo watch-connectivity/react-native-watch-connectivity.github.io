@@ -36,15 +36,15 @@ module.exports = {
           items: [
             {
               label: 'Getting Started',
-              to: 'docs/getting-started',
+              to: 'docs/introduction',
             },
             {
-              label: 'Documentation',
-              to: 'docs/',
+              label: 'Guides',
+              to: 'docs/communication',
             },
             {
               label: 'API',
-              to: 'docs/api/',
+              to: 'docs/messages',
             },
           ],
         },
