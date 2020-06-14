@@ -4,11 +4,23 @@ title: Messages
 sidebar_label: Messages
 ---
 
-TODO: Describe how messages work
-- Messages are only sent when the **watch is reachable**
-- Use user info/application context to queue
+## Introduction
 
-## sendMessage
+Messages allow two-way communication between the Watch Extension & your React Native companion app.
+
+Messages can ONLY be sent when the session is [reachable](/docs/reachability). You will receive an error if you try
+to send a message when the session is unreachable. 
+
+If you need to transfer important information to the Watch Extension you should use [User Info](/docs/user-info) or [Application Context](/docs/application-context),
+both of which can be used when the session is unreachable.
+
+### Messages vs. User Info vs. Application Context
+
+
+
+## API
+
+### sendMessage
 
 ```typescript
 import { sendMessage } from "react-native-watch-connectivity";
@@ -16,9 +28,7 @@ import { sendMessage } from "react-native-watch-connectivity";
 sendMessage({ text: "hi!" })
 ```
 
-### Handle replies
-
-#### React Native App
+#### Handle replies
 
 ```ts
 import { 
@@ -54,7 +64,7 @@ func session(
 }
 ```
 
-### TypeScript Support
+#### TypeScript Support
 
 You can type the reply messages as follows:
 
@@ -70,7 +80,7 @@ sendMessage<WatchResponse>({
 })
 ```
 
-## subscribeToMessages
+### subscribeToMessages
 
 ```ts
 import { subscribeToMessages } from "react-native-watch-connectivity";
@@ -81,7 +91,7 @@ subscribeToMessages((message, reply) => {
 })
 ```
 
-### TypeScript support
+#### TypeScript support
 
 ```ts
 import { subscribeToMessages } from "react-native-watch-connectivity";
