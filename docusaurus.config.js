@@ -69,6 +69,7 @@ module.exports = {
       ],
       copyright: `Built with Docusaurus.`,
     },
+    prism: { additionalLanguages: ['typescript', 'swift']}
   },
   presets: [
     [
