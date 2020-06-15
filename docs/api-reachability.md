@@ -1,5 +1,5 @@
 ---
-id: reachability
+id: api-reachability
 title: Reachability
 sidebar_label: Reachability
 ---

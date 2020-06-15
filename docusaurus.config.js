@@ -1,8 +1,8 @@
 module.exports = {
   title: 'React Native Watch Connectivity',
   tagline: 'Communicate with your watch-app from react native',
-  url: 'https://react-native-watch-connectivity.github.io',
-  baseUrl: '/',
+  url: 'https://mtford90.github.io',
+  baseUrl: '/react-native-watch-connectivity/',
   favicon: 'img/favicon.ico',
   organizationName: 'mtford90', // Usually your GitHub org/user name.
   projectName: 'react-native-watch-connectivity', // Usually your repo name.
