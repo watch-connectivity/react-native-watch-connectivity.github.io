@@ -8,7 +8,8 @@ module.exports = {
       'application-context',
       'files',
       'api-reachability',
-      'api-watch-state'
+      'api-watch-state',
+      'api-hooks'
     ]
   },
 };
