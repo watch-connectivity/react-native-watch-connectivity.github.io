@@ -4,41 +4,14 @@ title: User Info
 sidebar_label: User Info
 ---
 
-TODO: Describe the queueing system
-
-Typical workflow:
-
-```ts
-import { 
-  dequeueUserInfo, 
-  getQueuedUserInfo, 
-  subscribeToUserInfo 
-} from "react-native-watch-connectivity"
-
-function processUserInfo(id, userInfo) {
-  consumeUserInfo(userInfo);
-  dequeueUserInfo(id); // Mark user info as consumed
-}
-
-getQueuedUserInfo().then(queuedUserInfo => {
-  // Consume user info sent by the watch whilst the app has been closed
-  queuedUserInfo.forEach(({userInfo, id}) => {
-    processUserInfo(id, userInfo);
-  })
-
-  // Deal with any user info sent whilst the app is open
-  subscribeToUserInfo(({userInfo, id}) => {
-    processUserInfo(id, userInfo);
-  })
-})
-```
-
 ## transferUserInfo
 
 ```ts
 import { transferUserInfo } from "react-native-watch-connectivity"
 
-transferUserInfo({key: "value"})
+const userInfo = {key: "value"}; // Any number of key/value pairs
+
+transferUserInfo(userInfo); 
 ```
 
 ## transferCurrentComplicationUserInfo
@@ -48,12 +21,43 @@ Same as transferUserInfo but receives priority. Generally used to update informa
 ```ts
 import { transferCurrentComplicationUserInfo } from "react-native-watch-connectivity"
 
-transferCurrentComplicationUserInfo({key: "value"})
+const userInfo = {key: "value"}; // Any number of key/value pairs
+
+transferCurrentComplicationUserInfo(userInfo);
+```
+
+## consumeUserInfo
+
+Handle all user info received from the Watch. You will also receive all user info sent from the Watch prior to the subscription being created. User info will be dequeued automatically.
+
+```ts
+const stop = consumeUserInfo(async (userInfo, date) => {
+    console.log('Received user info', userInfo);
+    await doSomeThingWithUserInfo(userInfo);
+})
+
+// ...
+
+stop();
+```
+
+### Typescript Support
+
+```ts
+// Type out expected user info to be received from the Watch
+type UserInfoPayload {
+	myNumber: number;
+    myText: string;
+}
+
+consumeUserInfo<UserInfoPayload>(async (userInfo, date) => {
+    console.log(userInfo.myText);
+})
 ```
 
 ## getQueuedUserInfo
 
-Returns all unprocessed user info received by the Watch, including all user info messages received whilst the companion app is closed. 
+Returns all unprocessed user info received by the Watch, including all user info messages received prior to a user info subscription being registered.
 
 ```ts
 import { getQueuedUserInfo } from "react-native-watch-connectivity"
@@ -67,7 +71,7 @@ queue.forEach(({userInfo, timestamp, id}) => {
 
 ### TypeScript support
 
-It's possible to type the user info expected by companion app.
+It's possible to type the user info expected by the companion app.
 
 ```typescript
 import { getQueuedUserInfo } from "react-native-watch-connectivity"
@@ -110,6 +114,25 @@ import {
 } from "react-native-watch-connectivity"
 
 subscribeToUserInfo(({userInfo, timestamp, id}) => {
-  // ...
+   console.log(`User info received @ ${timestamp}:`, JSON.stringify(userInfo, null, 2));
+})
+```
+
+### TypeScript Support
+
+```ts
+import { 
+  subscribeToUserInfo
+} from "react-native-watch-connectivity"
+
+
+// Type out expected user info to be received from the Watch
+type UserInfoPayload {
+	myNumber: number;
+    myText: string;
+}
+
+subscribeToUserInfo<UserInfoPayload>(({userInfo, timestamp, id}) => {
+  console.log(userInfo.myText)
 })
 ```

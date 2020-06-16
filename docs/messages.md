@@ -4,99 +4,68 @@ title: Messages
 sidebar_label: Messages
 ---
 
-## Introduction
-
-Messages allow two-way communication between the Watch Extension & your React Native companion app.
-
-Messages can ONLY be sent when the session is [reachable](/docs/reachability). You will receive an error if you try
-to send a message when the session is unreachable. 
-
-If you need to transfer important information to the Watch Extension you should use [User Info](/docs/user-info) or [Application Context](/docs/application-context),
-both of which can be used when the session is unreachable.
-
-### Messages vs. User Info vs. Application Context
-
-
-
-## API
-
-### sendMessage
+## sendMessage
 
 ```typescript
-import { sendMessage } from "react-native-watch-connectivity";
+import {sendMessage} from 'react-native-watch-connectivity';
 
-sendMessage({ text: "hi!" })
-```
-
-#### Handle replies
-
-```ts
-import { 
-  sendMessage, 
-  ERROR_CODE_SESSION_UNREACHABLE 
-} from "react-native-watch-connectivity";
-
-const replyHandler = reply => console.log(reply.text);
-
-const errorHandler = (err) => {
-   if (err.code !== ERROR_CODE_SESSION_UNREACHABLE) {
-     console.error(err);
-   } 
+// Message can have any number of key-value pairs 
+const message = {
+    "key": "value"
 }
 
-const message = { text: "hello" };
+// Optional reply handler
+const replyHandler = response => {
+    console.log("Response from watch received", response);
+}
+
+// Optional error handler
+const errorHandler = error => {
+    console.error(error)
+}
 
 sendMessage(message, replyHandler, errorHandler);
 ```
 
-#### Watch Extension
+### TypeScript Support
 
-```swift
-func session(
-    _ session: WCSession, 
-    didReceiveMessage message: [String: Any], 
-    replyHandler: @escaping ([String: Any]) -> Void
-) {
-    let text = message["text"] as? String
-    if (text == "hello") {
-        replyHandler(["text": "why, hello there"])
-    }
+```typescript
+type Response = {
+    "text": string
 }
+
+const message = {"text": "Hello watch!"}
+
+sendMessage<Response>(
+    message, 
+    response => {
+        console.log(response.text); // Intellisense available
+    }
+)
 ```
 
-#### TypeScript Support
+## subscribeToMessages
 
-You can type the reply messages as follows:
+```typescript
+const unsubscribe = subscribeToMessages((message, reply) => {
+    console.log("Received message from watch", message);
+    reply({text: "Got your message, thanks!"})
+});
 
-```ts
-import { sendMessage } from "react-native-watch-connectivity";
-
-type WatchResponse = {text: string}
-
-sendMessage<WatchResponse>({
-  text: "Hi there watch!"
-}, reply => {
-  console.log(reply.aRandomProperty); // this will now show an error
-})
+unsubscribe(); // Terminate subscription
 ```
 
-### subscribeToMessages
+### TypeScript Support
 
-```ts
-import { subscribeToMessages } from "react-native-watch-connectivity";
+```typescript
+type MessageFromWatch = {
+    "text": string
+}
 
-subscribeToMessages((message, reply) => {
-  console.log(message);
-  reply({text: 'Thanks for the message'});
-})
-```
+const unsubscribe = subscribeToMessages<MessageFromWatch>((message, reply) => {
+    console.log("Received message from watch", message.text); 
+    reply({text: "Got your message, thanks!"});
+});
 
-#### TypeScript support
-
-```ts
-import { subscribeToMessages } from "react-native-watch-connectivity";
-
-subscribeToMessages<{text: string}>((message) => {
-  console.log(message.text);
-})
+unsubscribe(); // Terminate subscription
 ```
