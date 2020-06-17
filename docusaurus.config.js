@@ -1,6 +1,6 @@
 module.exports = {
   title: 'React Native Watch Connectivity',
-  tagline: 'Communicate with your watch-app from react native',
+  tagline: 'Enabling communication between your Watch App & React Native App',
   url: 'https://mtford90.github.io',
   baseUrl: '/react-native-watch-connectivity/',
   favicon: 'img/favicon.ico',
@@ -10,7 +10,7 @@ module.exports = {
     navbar: {
       title: 'React Native Watch Connectivity',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'Watch Connectivity',
         src: 'img/logo.svg',
       },
       links: [
@@ -19,6 +19,11 @@ module.exports = {
           activeBasePath: 'docs',
           label: 'Docs',
           position: 'left',
+        },
+        {
+          to: 'https://gitter.im/react-native-watch-connectivity/community',
+          label: 'Help',
+          position: 'left'
         },
         // {to: 'blog', label: 'Blog', position: 'left'},
         {
