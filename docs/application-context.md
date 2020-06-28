@@ -47,35 +47,3 @@ type MyApplicationContext = {
 
 await updateApplicationContext<MyApplicationContext>({key: "value"}); // Type error
 ```
-
-## subscribeToApplicationContext
-
-```ts
-import {subscribeToApplicationContext} from 'react-native-watch-connectivity';
-
-const unsubscribe = subscribeToApplicationContext(context => {
-    console.log(context);
-})
-
-// ...
-
-unsubscribe();
-```
-
-### TypeScript Support
-
-```ts
-import {subscribeToApplicationContext} from 'react-native-watch-connectivity';
-
-type MyApplicationContext = {
-    myKey: string
-}
-
-const unsubscribe = subscribeToApplicationContext<MyApplicationContext>(context => {
-    console.log(context.myKey);
-})
-
-// ...
-
-unsubscribe();
-```

@@ -105,6 +105,7 @@ import { transferCurrentComplicationUserInfo } from 'react-native-watch-connecti
 transferCurrentComplicationUserInfo({key: 'value'})
 ```
 
+
 ### Application Context
 
 Application context should be used when only the *latest* information is required. Once the Watch App or Companion App
@@ -129,12 +130,12 @@ import { getApplicationContext } from 'react-native-watch-connectivity'
 const applicationContext = await getApplicationContext() 
 ```
 
-#### Subscribe to application context
+#### Application context events
 
 ```typescript
-import { subscribeToApplicationContext } from "react-native-watch-connectivity";
+import { watchEvents } from "react-native-watch-connectivity";
 
-const unsubscribe = subscribeToApplicationContext(context => {
+const unsubscribe = watchEvents.addListener('application-context', context => {
     console.log('context', context)
 })
 ```
