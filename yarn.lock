@@ -7177,6 +7177,11 @@ mississippi@^3.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
+mitt@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/mitt/-/mitt-1.2.0.tgz#cb24e6569c806e31bd4e3995787fe38a04fdf90d"
+  integrity sha512-r6lj77KlwqLhIUku9UWYes7KJtsczvolZkzp8hbaDPPaE24OmWl5s539Mytlj22siEQKosZ26qCBgda2PKwoJw==
+
 mixin-deep@^1.2.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.2.tgz#1120b43dc359a785dce65b55b82e257ccf479566"
@@ -8973,12 +8978,13 @@ react-native-image-picker@^2.3.1:
   resolved "https://registry.yarnpkg.com/react-native-image-picker/-/react-native-image-picker-2.3.1.tgz#1977b65e07793d2c0b2d1976fb675c5f75ad7f11"
   integrity sha512-c/a2h7/T7yBo5KlNQhcSn4xf4+6Li6LfJ59+GZT1ZzzWrj/6X8DiJ/TJBOlOZMC5tJriZKuRkWSsr74k6z+brw==
 
-react-native-watch-connectivity@^0.5.0-alpha.11:
-  version "0.5.0-alpha.11"
-  resolved "https://registry.yarnpkg.com/react-native-watch-connectivity/-/react-native-watch-connectivity-0.5.0-alpha.11.tgz#da423204e99c83059674288305ef94dce8001bff"
-  integrity sha512-UJmFjwg1nXMRzzfoO/P6VTbXvSQSM4bFLTVhqCl4F6oewpoScyZJHaFGeuCHd9PFiCsP8kgg+8/pjC0XGxaX6w==
+react-native-watch-connectivity@^1.0.0-alpha.0:
+  version "1.0.0-alpha.0"
+  resolved "https://registry.yarnpkg.com/react-native-watch-connectivity/-/react-native-watch-connectivity-1.0.0-alpha.0.tgz#1d96cd4261e4f746a762a199662c6e6f61976cd5"
+  integrity sha512-CyZV+pUZykSc7CdYkgxfOkNWcrxRZTheqXH5BDsIg7ebf8LH9vU4hsH0hJBBbV3ZKQxq5U3q1+P67gz830JHdw==
   dependencies:
     lodash.sortby "^4.7.0"
+    mitt "^1.2.0"
 
 react-native@^0.62.2:
   version "0.62.2"

@@ -17,7 +17,7 @@
     "prismjs": "^1.20.0"
   },
   "devDependencies": {
-    "react-native-watch-connectivity": "^0.5.0-alpha.11",
+    "react-native-watch-connectivity": "^1.0.0-alpha.0",
     "react-native": "^0.62.2",
 
     "react-native-image-picker": "^2.3.1",

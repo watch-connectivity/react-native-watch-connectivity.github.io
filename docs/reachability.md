@@ -51,7 +51,7 @@ console.log(
     "watch app is installed" :
     "watch app is not installed"
 )
-```  
+```
 
 ## Watch Session State
 

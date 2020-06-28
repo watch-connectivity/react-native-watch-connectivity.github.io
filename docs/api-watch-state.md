@@ -28,6 +28,8 @@ unsubscribe();
 
 ## getIsPaired
 
+Is this iPhone paired with an apple watch?
+
 ```ts
 import {getIsPaired} from 'react-native-watch-connectivity';
 
@@ -37,6 +39,8 @@ console.log(paired); // true | false
 ```
 
 ## getIsWatchAppInstalled
+
+Is the watch app, companion to the react native, installed?
 
 ```ts
 import {getIsWatchAppInstalled} from 'react-native-watch-connectivity';

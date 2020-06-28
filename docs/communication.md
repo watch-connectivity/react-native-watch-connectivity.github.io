@@ -19,7 +19,7 @@ Interactive messaging requires both your app & watch extension to be [reachable]
 
 These methods should be used when information is required immediately & both apps are running in the foreground.
 
-### Key/Value Pairs
+### Send Messages
 
 #### Companion App
 
@@ -31,20 +31,7 @@ sendMessage({text: "Hello watch!"}, reply => {
 }); 
 ```
 
-#### Watch Extension
-
-```swift
-func session(
-  _ session: WCSession,
-  didReceiveMessage message: [String: Any],
-  replyHandler: @escaping ([String: Any]) -> Void
-) {
-  print("watch received message", message);
-  replyHandler(["text": "Hello React Native app!"])
-}
-```
-
-### Raw Data
+### Send Message Data
 
 #### Companion App
 
@@ -57,18 +44,17 @@ sendMessageData("SGVsbG8gd2F0Y2g=", reply => {
 })
 ```
 
-#### Watch Extension
+### Receive/Reply to Messages 
 
-```swift
-// Receive raw data
-func session(
-    _ session: WCSession,
-    didReceiveMessageData messageData: Data,
-    replyHandler: @escaping (Data) -> Void
-  ) {
-  print("watch received data", data);
-  replyHandler("SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=")
-}
+You can also receive & reply to messages from the watch.
+
+```typescript
+import {watchEvents} from 'react-native-watch-connectivity';
+
+const unsubscribe = watchEvents.on('message', (message, reply) => {
+  console.log('received message from watch', message);
+  reply({text: "Thanks watch!"});
+})
 ```
 
 ## Background Transfers
@@ -78,55 +64,26 @@ the content is delivered. You do not need both apps to be reachable in order to 
 
 ### User Info
 
-User info messages are queued & delivered in FIFO order. User info differs from [Application Context](/docs/communication#application-context) in that nothing
-is overridden. You will need to handle each piece of user info in order.
+User info differs from [Application Context](/docs/communication#application-context) in that nothing is overridden. You will need to handle each piece of user info in order.
 
-#### Receive user info from the Watch 
+This library implements a queueing system in order to organise each piece of user info received from the watch. 
 
-This library implements a queueing system in order to organise each piece of user info received from the watch. This ensures that all user info
-sent from the watch is accessible to the companion React Native app - even if that user info arrives BEFORE a user info
-listener is registered within react native. (This solves a problem whereby user info could arrive on the native side and
-be emitted whilst your app is still starting up, for example)
+This ensures that all user info sent from the watch is accessible to the companion React Native app - *even if that user info arrives before a user info listener is registered within your RN app*. 
 
-A typical workflow looks like:
+This solves a problem whereby user info could arrive on the native side and be emitted whilst your app is still starting up.
 
-```typescript
-import { 
-  dequeueUserInfo, 
-  getQueuedUserInfo, 
-  subscribeToUserInfo 
-} from "react-native-watch-connectivity"
+#### Receive user info 
 
-function consumeUserInfo(userInfo) {
-  // Do something with the user info
-}
+When your app starts up, you can get any missed user info by calling `getMissedUserInfo` at the same time as setting up a user info listener.
 
-getQueuedUserInfo().then(queuedUserInfo => {
-  // Consume user info sent by the watch prior to subscribing to new user info
-  queuedUserInfo.forEach(({userInfo, timestamp, id}) => {
-    consumeUserInfo(userInfo);
-    dequeueUserInfo(id); // Mark user info as consumed
-  })
+```typescript jsx
+import {getMissedUserInfo, watchEvents} from 'react-native-watch-connectivity';
 
-  // Deal with any further user info sent by the watch app
-  subscribeToUserInfo(({userInfo, id}) => {
-    consumeUserInfo(userInfo);
-    dequeueUserInfo(id); // Mark user info as consumed
-  })
-})
-```
+const arrayOfMissedUserInfo = await getMissedUserInfo();
 
-To simplify this workflow, you can use `consumeUserInfo` which will dequeue user info automatically.
-
-```typescript
-import { consumeUserInfo } from 'react-native-watch-connectivity';
- 
-const unsubscribe = consumeUserInfo(
-  async function(userInfo) {
-      await doSomethingWithTheUserInfo(userInfo)
-      // Will be dequeued automatically, and you'll never see it again
-  }
-)
+const unsubscribe = watchEvents.on('user-info', userInfo => {
+  console.log('received user info', userInfo);
+});
 ```
 
 #### Transfer user info to the watch

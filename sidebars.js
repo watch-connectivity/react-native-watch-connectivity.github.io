@@ -9,7 +9,8 @@ module.exports = {
       'files',
       'api-reachability',
       'api-watch-state',
-      'api-hooks'
+      'api-hooks',
+      'api-events'
     ]
   },
 };
