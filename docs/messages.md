@@ -30,6 +30,8 @@ sendMessage(message, replyHandler, errorHandler);
 ### TypeScript Support
 
 ```typescript
+import {sendMessage} from 'react-native-watch-connectivity';
+
 type Response = {
     "text": string
 }
@@ -44,28 +46,17 @@ sendMessage<Response>(
 )
 ```
 
-## subscribeToMessages
+## sendMessageData
 
 ```typescript
-const unsubscribe = subscribeToMessages((message, reply) => {
-    console.log("Received message from watch", message);
-    reply({text: "Got your message, thanks!"})
-});
+import {sendMessageData} from 'react-native-watch-connectivity';
+import { Buffer } from 'buffer';
 
-unsubscribe(); // Terminate subscription
-```
-
-### TypeScript Support
-
-```typescript
-type MessageFromWatch = {
-    "text": string
-}
-
-const unsubscribe = subscribeToMessages<MessageFromWatch>((message, reply) => {
-    console.log("Received message from watch", message.text); 
-    reply({text: "Got your message, thanks!"});
-});
-
-unsubscribe(); // Terminate subscription
+sendMessageData(
+    Buffer.from('abc', 'utf-8').toString('base64'),
+    encodedResponse => {
+        let response = Buffer.from(encodedResponse, 'base64').toString('utf8');
+        console.log('Received response', response)
+    }
+);
 ```
