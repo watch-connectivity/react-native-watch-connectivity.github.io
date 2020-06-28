@@ -52,25 +52,3 @@ console.log(
     "watch app is not installed"
 )
 ```
-
-## Watch Session State
-
-You cannot communicate with the watch app until the watch session is activated. 
-
-This is performed automatically by `react-native-watch-connectivity` on launch.
-
-```ts
-import { subscribeToWatchState, getWatchState, WatchState } from 'react-native-watch-connectivity'
-
-const state = await getWatchState();
-console.log('watch state', state);
-
-const unsubscribe = subscribeToWatchState(state => {
-  if (state === WatchState.Activated) {
-    console.log('Watch session is activated!')
-  } 
-})
-```
-
-
-
