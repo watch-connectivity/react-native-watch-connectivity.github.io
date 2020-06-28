@@ -27,7 +27,7 @@ These methods should be used when information is required immediately & both app
 import { sendMessage } from "react-native-watch-connectivity";
 
 sendMessage({text: "Hello watch!"}, reply => {
-  console.log(reply); // {"text": "Hello React Native app!"}
+    console.log(reply); // {"text": "Hello React Native app!"}
 }); 
 ```
 
@@ -40,7 +40,7 @@ import { sendMessageData } from "react-native-watch-connectivity";
 
 // Send raw data
 sendMessageData("SGVsbG8gd2F0Y2g=", reply => {
-  console.log(reply); // SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=
+    console.log(reply); // SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=
 })
 ```
 
@@ -52,8 +52,8 @@ You can also receive & reply to messages from the watch.
 import {watchEvents} from 'react-native-watch-connectivity';
 
 const unsubscribe = watchEvents.on('message', (message, reply) => {
-  console.log('received message from watch', message);
-  reply({text: "Thanks watch!"});
+    console.log('received message from watch', message);
+    reply({text: "Thanks watch!"});
 })
 ```
 
@@ -82,7 +82,7 @@ import {getMissedUserInfo, watchEvents} from 'react-native-watch-connectivity';
 const arrayOfMissedUserInfo = await getMissedUserInfo();
 
 const unsubscribe = watchEvents.on('user-info', userInfo => {
-  console.log('received user info', userInfo);
+    console.log('received user info', userInfo);
 });
 ```
 
@@ -135,6 +135,6 @@ const applicationContext = await getApplicationContext()
 import { subscribeToApplicationContext } from "react-native-watch-connectivity";
 
 const unsubscribe = subscribeToApplicationContext(context => {
-  console.log('context', context)
+    console.log('context', context)
 })
 ```
