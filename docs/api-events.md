@@ -116,7 +116,7 @@ unsubscribe();
 
 ## `reachability`
 
-Updates when reachability changes. If reachable, then you can use [interactive messaging](/docs/communication#interactive-messaging) to communicate with the watch.
+Updates when reachability changes. If reachable, then you can use [interactive messaging](/react-native-watch-connectivity/docs/communication#interactive-messaging) to communicate with the watch.
 
 ### Usage
 
