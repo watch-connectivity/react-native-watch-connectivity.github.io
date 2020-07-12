@@ -11,4 +11,4 @@ sidebar_label: Introduction
 Features:
 - Communication including both interactive messaging & background transfers
 - File transfers
-- Watch monitoring including reachability & state
+- Watch monitoring including reachability, pairing status & watch app installation.
