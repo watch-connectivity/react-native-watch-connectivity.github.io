@@ -32,92 +32,30 @@ function MyComponent() {
 }
 ```
 
-## useFileTransfers
 
-Returns an array of all file transfers (in progress, errored, completed)
+## usePaired
 
-```tsx
-import {useFileTransfers} from 'react-native-watch-connectivity';
-import {Text, View} from 'react-native';
-
-type MyApplicationContext = {
-    key: string;
-}
-
-function MyComponent() {
-    const transfers = useFileTransfers();
-    
-    return (
-        <View>
-            {transfers.map(transfer => {
-                const {
-                    completedUnitCount, // num bytes completed
-                    estimatedTimeRemaining, 
-                    fractionCompleted,
-                    throughput, // Bit rate
-                    totalUnitCount, // total num. bytes 
-                    url, // url of file being transferred
-                    metadata, // file metadata
-                    id, // id === transferId
-                    startTime, // time that the file transfer started
-                    endTime, // time that the file transfer ended
-                    error // null or [Error] if the file transfer failed
-                } = transferInfo;
-                    
-                return (
-                    <View>
-                         <Text>{url}</Text>
-                         <ProgressBar fractionCompleted={fractionCompleted}/>
-                    </View>
-                )
-            })}
-        </View>
-    )
-}
-```
-
-## useMessageListener
+Is the phone paired with an iWatch?
 
 ```tsx
-import {useMessageListener} from 'react-native-watch-connectivity';
+import {usePaired} from 'react-native-watch-connectivity';
 
 function MyComponent() {
-    useMessageListener((message, reply) => {
-        console.log('Received message from watch', message);
-        reply({text: "Thanks for the message!"})
-    });
+    const state = usePaired(); // true | false
     
     // ...
 }
 ```
 
-### TypeScript Support
+## useInstalled
+
+Is the watch app installed?
 
 ```tsx
-import {useMessageListener} from 'react-native-watch-connectivity';
-
-type MessageFromWatch = {
-    x: string
-}
+import {useInstalled} from 'react-native-watch-connectivity';
 
 function MyComponent() {
-    useMessageListener<MessageFromWatch>((message, reply) => {
-        console.log('Received message from watch', message.x);
-        reply({text: "Thanks for the message!"})
-    });
-    
-    // ...
-}
-```
-
-## useWatchState
-
-```tsx
-import {useWatchState} from 'react-native-watch-connectivity';
-
-
-function MyComponent() {
-    const state = useWatchState(); // Activated | NotActivated | Inactive
+    const state = useInstalled(); // true | false
     
     // ...
 }
@@ -125,10 +63,11 @@ function MyComponent() {
 
 ## useReachability
 
+Is the watch app reachable? Can we use interactive messaging? (`sendMessage` etc)
+
 ```tsx
 import {useReachability} from 'react-native-watch-connectivity';
 import {Text} from 'react-native';
-
 
 function MyComponent() {
     const reachable = useReachability(); // true | false
