@@ -7,7 +7,6 @@ module.exports = {
       'user-info',
       'application-context',
       'files',
-      'api-reachability',
       'api-watch-state',
       'api-hooks',
       'api-events'
