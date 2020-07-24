@@ -22,9 +22,9 @@ console.log(reachable ? "Watch app is reachable" : "Watch app is not reachable")
 ### subscribe
 
 ```typescript
-import { subscribeToReachability } from 'react-native-watch-connectivity'
+import { watchEvents } from 'react-native-watch-connectivity'
 
-const unsubscribe = subscribeToReachability(reachable => {
+const unsubscribe = watchEvents.addListener('reachability', reachable => {
   console.log(reachable ? "Watch app is reachable" : "Watch app is not reachable")
 })
 ```
