@@ -26,7 +26,7 @@ type MyApplicationContext = {
 }
 
 function MyComponent() {
-    const context = useApplicationContext();
+    const context = useApplicationContext<MyApplicationContext>();
     
     return <Text>{context.key}</Text>
 }
