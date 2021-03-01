@@ -14,7 +14,7 @@
     "classnames": "^2.2.6",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
-    "prismjs": "^1.20.0"
+    "prismjs": "^1.23.0"
   },
   "devDependencies": {
     "react-native-watch-connectivity": "^1.0.0-alpha.0",
