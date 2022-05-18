@@ -58,21 +58,21 @@ console.log(
 You can determine whether or not the companion watch app is installed by using the following methods
 
 ```ts
-import { getIsInstalled, getIsWatchAppInstalled } from 'react-native-watch-connectivity'
+import { getIsPaired, getIsWatchAppInstalled } from 'react-native-watch-connectivity'
 
-const isPaired = await getIsInstalled();
+const isPaired = await getIsPaired();
 
 console.log(
-  isPaired ? 
-    "watch app is installed" :
-    "watch app is not installed"
+  isPaired 
+    ? "phone is paired with a watch" 
+    : "phone is NOT paired with a watch"
 )
 
 const isWatchAppInstalled = await getIsWatchAppInstalled();
 
 console.log(
-  isPaired ? 
-    "watch app is installed" :
-    "watch app is not installed"
+  isWatchAppInstalled 
+    ? "watch app is installed" 
+    : "watch app is not installed"
 )
 ```
