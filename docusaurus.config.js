@@ -2,10 +2,10 @@
 const config = {
   title: 'React Native Watch Connectivity',
   tagline: 'Enabling communication between your Watch App & React Native App',
-  url: 'https://mtford90.github.io',
+  url: 'https://watch-connectivity.github.io',
   baseUrl: '/react-native-watch-connectivity/',
   favicon: 'img/favicon.ico',
-  organizationName: 'mtford90',
+  organizationName: 'watch-connectivity',
   projectName: 'react-native-watch-connectivity',
 
   presets: [
@@ -16,7 +16,7 @@ const config = {
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
           editUrl:
-            'https://github.com/mtford90/react-native-watch-connectivity.github.io/edit/master/',
+            'https://github.com/watch-connectivity/react-native-watch-connectivity.github.io/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
@@ -42,7 +42,7 @@ const config = {
             label: 'Docs',
           },
           {
-            href: 'https://github.com/mtford90/react-native-watch-connectivity',
+            href: 'https://github.com/watch-connectivity/react-native-watch-connectivity',
             label: 'GitHub',
             position: 'right',
           },
@@ -73,7 +73,7 @@ const config = {
             items: [
               {
                 label: 'GitHub',
-                href: 'https://github.com/mtford90/react-native-watch-connectivity',
+                href: 'https://github.com/watch-connectivity/react-native-watch-connectivity',
               },
             ],
           },
