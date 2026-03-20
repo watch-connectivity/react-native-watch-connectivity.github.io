@@ -6,12 +6,16 @@ sidebar_label: Application Context
 
 ## getApplicationContext
 
+Returns the latest application context, or `null` if none has been set.
+
 ```ts
 import {getApplicationContext} from 'react-native-watch-connectivity';
 
 const context = await getApplicationContext();
 
-console.log(context);
+if (context) {
+    console.log(context);
+}
 ```
 
 ### TypeScript Support
@@ -25,7 +29,9 @@ type MyApplicationContext = {
 
 const context = await getApplicationContext<MyApplicationContext>();
 
-console.log(context.myKey);
+if (context) {
+    console.log(context.myKey);
+}
 ```
 
 ## updateApplicationContext
@@ -33,17 +39,5 @@ console.log(context.myKey);
 ```ts
 import {updateApplicationContext} from 'react-native-watch-connectivity';
 
-await updateApplicationContext({key: "value"});
-```
-
-### TypeScript Support
-
-```ts
-import {updateApplicationContext} from 'react-native-watch-connectivity';
-
-type MyApplicationContext = {
-    myKey: string
-}
-
-await updateApplicationContext<MyApplicationContext>({key: "value"}); // Type error
+updateApplicationContext({key: "value"});
 ```

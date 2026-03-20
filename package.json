@@ -6,26 +6,24 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy"
+    "deploy": "docusaurus deploy",
+    "clear": "docusaurus clear"
   },
   "dependencies": {
-    "@docusaurus/core": "^2.0.0-alpha.56",
-    "@docusaurus/preset-classic": "^2.0.0-alpha.56",
-    "classnames": "^2.2.6",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "prismjs": "^1.20.0"
+    "@docusaurus/core": "^3.7.0",
+    "@docusaurus/preset-classic": "^3.7.0",
+    "@mdx-js/react": "^3.0.0",
+    "clsx": "^2.1.0",
+    "prism-react-renderer": "^2.3.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
-  "devDependencies": {
-    "react-native-watch-connectivity": "^1.0.0-alpha.0",
-    "react-native": "^0.62.2",
-
-    "react-native-image-picker": "^2.3.1",
-    "react-native-fs": "^2.16.6"
+  "engines": {
+    "node": ">=18.0"
   },
   "browserslist": {
     "production": [
-      ">0.2%",
+      ">0.5%",
       "not dead",
       "not op_mini all"
     ],

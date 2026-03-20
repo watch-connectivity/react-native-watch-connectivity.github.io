@@ -1,103 +1,89 @@
-module.exports = {
+/** @type {import('@docusaurus/types').Config} */
+const config = {
   title: 'React Native Watch Connectivity',
   tagline: 'Enabling communication between your Watch App & React Native App',
   url: 'https://mtford90.github.io',
   baseUrl: '/react-native-watch-connectivity/',
   favicon: 'img/favicon.ico',
-  organizationName: 'mtford90', // Usually your GitHub org/user name.
-  projectName: 'react-native-watch-connectivity', // Usually your repo name.
-  themeConfig: {
-    navbar: {
-      title: 'React Native Watch Connectivity',
-      logo: {
-        alt: 'Watch Connectivity',
-        src: 'img/logo.svg',
-      },
-      links: [
-        {
-          to: 'docs/',
-          activeBasePath: 'docs',
-          label: 'Docs',
-          position: 'left',
-        },
-        {
-          to: 'https://gitter.im/react-native-watch-connectivity/community',
-          label: 'Help',
-          position: 'left'
-        },
-        // {to: 'blog', label: 'Blog', position: 'left'},
-        {
-          href: 'https://github.com/mtford90/react-native-watch-connectivity',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
-    footer: {
-      style: 'dark',
-      links: [
-        {
-          title: 'Docs',
-          items: [
-            {
-              label: 'Getting Started',
-              to: 'docs/introduction',
-            },
-            {
-              label: 'Guides',
-              to: 'docs/communication',
-            },
-            {
-              label: 'API',
-              to: 'docs/messages',
-            },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            {
-              label: 'Gitter',
-              href: 'https://gitter.im/react-native-watch-connectivity/community',
-            }
-          ],
-        },
-        {
-          title: 'More',
-          items: [
-            {
-              label: 'GitHub',
-              href: 'https://github.com/mtford90/react-native-watch-connectivity',
-            },
-          ],
-        },
-      ],
-      copyright: `Built with Docusaurus.`,
-    },
-    prism: { additionalLanguages: ['typescript', 'swift']}
-  },
+  organizationName: 'mtford90',
+  projectName: 'react-native-watch-connectivity',
+
   presets: [
     [
-      '@docusaurus/preset-classic',
-      {
+      'classic',
+      /** @type {import('@docusaurus/preset-classic').Options} */
+      ({
         docs: {
-          // It is recommended to set document id as docs home page (`docs/` path).
-          homePageId: 'introduction',
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          editUrl:
-            'https://github.com/mtford90/react-native-watch-connectivity.github.io/edit/master/',
-        },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
           editUrl:
             'https://github.com/mtford90/react-native-watch-connectivity.github.io/edit/master/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-      },
+      }),
     ],
   ],
+
+  themeConfig:
+    /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
+    ({
+      navbar: {
+        title: 'React Native Watch Connectivity',
+        logo: {
+          alt: 'Watch Connectivity',
+          src: 'img/logo.svg',
+        },
+        items: [
+          {
+            type: 'doc',
+            docId: 'introduction',
+            position: 'left',
+            label: 'Docs',
+          },
+          {
+            href: 'https://github.com/mtford90/react-native-watch-connectivity',
+            label: 'GitHub',
+            position: 'right',
+          },
+        ],
+      },
+      footer: {
+        style: 'dark',
+        links: [
+          {
+            title: 'Docs',
+            items: [
+              {
+                label: 'Getting Started',
+                to: '/docs/',
+              },
+              {
+                label: 'Guides',
+                to: '/docs/communication',
+              },
+              {
+                label: 'API',
+                to: '/docs/messages',
+              },
+            ],
+          },
+          {
+            title: 'More',
+            items: [
+              {
+                label: 'GitHub',
+                href: 'https://github.com/mtford90/react-native-watch-connectivity',
+              },
+            ],
+          },
+        ],
+        copyright: `Built with Docusaurus.`,
+      },
+      prism: {
+        additionalLanguages: ['typescript', 'swift'],
+      },
+    }),
 };
+
+module.exports = config;

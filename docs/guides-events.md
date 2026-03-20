@@ -40,7 +40,7 @@ const cancel = watchEvents.once('message', (messageFromWatch, reply) => {
 cancel(); // If needed. Will cancel automatically after first event.
 ```
 
-Note: `once` can also be used with a `Promise` 
+Note: `once` can also be used with a `Promise`
 
 ```ts
 import {watchEvents} from "react-native-watch-connectivity";
@@ -50,12 +50,20 @@ const [message, reply] = await watchEvents.once('message');
 
 ## Events
 
-See the [Events API documentation](/react-native-watch-connectivity/docs/api-events) for information on each individual event
+See the [Events API documentation](/docs/api-events) for information on each individual event.
 
 - `application-context`
+- `application-context-error`
+- `application-context-received-error`
+- `activation-error`
 - `file`
+- `file-received`
+- `file-received-error`
 - `installed`
 - `message`
 - `paired`
-- `reachablity`
+- `reachability`
+- `session-became-inactive`
+- `session-did-deactivate`
 - `user-info`
+- `user-info-error`

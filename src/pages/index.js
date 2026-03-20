@@ -1,31 +1,25 @@
 import React from 'react';
-import classnames from 'classnames';
+import clsx from 'clsx';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import useBaseUrl from '@docusaurus/useBaseUrl';
+import Layout from '@theme/Layout';
 import styles from './styles.module.css';
-import Navbar from '@theme/Navbar';
-import Footer from '@theme/Footer';
-import ThemeProvider from '@theme/ThemeProvider';
 
 function Home() {
-    const context = useDocusaurusContext();
-    const {siteConfig = {}} = context;
+    const {siteConfig} = useDocusaurusContext();
     const imgUrl = useBaseUrl("img/react-watchkit.png");
 
-
-
     return (
-        <ThemeProvider>
-            <Navbar/>
-            <main className={classnames('hero hero--primary', styles.main)}>
+        <Layout title={siteConfig.title} description={siteConfig.tagline}>
+            <main className={clsx('hero hero--primary', styles.main)}>
                 <div className="container">
-                    <img src={imgUrl}/>
+                    <img src={imgUrl} alt="React Native Watch Connectivity" />
                     <h1 className="hero__title">{siteConfig.title}</h1>
                     <p className="hero__subtitle">{siteConfig.tagline}</p>
                     <div className={styles.buttons}>
                         <Link
-                            className={classnames(
+                            className={clsx(
                                 'button button--outline button--secondary button--lg',
                                 styles.getStarted,
                             )}
@@ -35,8 +29,7 @@ function Home() {
                     </div>
                 </div>
             </main>
-            <Footer/>
-        </ThemeProvider>
+        </Layout>
     );
 }
 

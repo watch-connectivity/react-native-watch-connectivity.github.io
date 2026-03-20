@@ -2,6 +2,7 @@
 id: introduction
 title: Introduction
 sidebar_label: Introduction
+slug: /
 ---
 
 `react-native-watch-connectivity` is a library for interacting with Apple Watch apps from a companion React Native app.

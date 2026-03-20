@@ -4,45 +4,25 @@ title: Installation
 sidebar_label: Installation
 ---
 
+## Requirements
+
+- React Native 0.76+
+- iOS 13.4+
+
 ## Install
 
-```shell script
-npm install react-native-watch-connectivity --save
+```bash
+npm install react-native-watch-connectivity
 # or
 yarn add react-native-watch-connectivity
 ```
 
 ## Link
 
-Autolinking is the preferred installation method
-
-### Autolink
-
 ```bash
-cd ios
-pod install
+cd ios && pod install
 ```
 
-### CLI
+## Expo
 
-Use for React Native <0.60
-
-```bash
-react-native link
-```
-
-### Manual link
-
-Add the following to your `ios/Podfile`
-
-```ruby
-pod 'RNWatch', :path => '../node_modules/react-native-watch-connectivity'
-```
-
-And then run:
-
-```bash
-pod install
-``` 
-
-
+This library has been successfully used in Expo apps using the Bare Workflow with EAS Build. No additional configuration is needed beyond the standard install and pod install steps above.

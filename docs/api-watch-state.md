@@ -38,4 +38,4 @@ console.log('reachable?', reachable);
 
 ## Events
 
-See the [Events API documentation](/react-native-watch-connectivity/docs/api-events) for details on subscribing to the above.
+See the [Events API documentation](/docs/api-events) for details on subscribing to the above.

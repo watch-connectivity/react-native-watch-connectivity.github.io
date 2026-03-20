@@ -4,7 +4,7 @@ title: Troubleshooting
 sidebar_label: Troubleshooting
 ---
 
-Apple's iOS/iWatch simulator integration is really quite buggy. I strongly suggest using real devices instead.
+Apple's iOS/Apple Watch simulator integration is really quite buggy. I strongly suggest using real devices instead.
 
 ## Messages are not being received on the simulator
 

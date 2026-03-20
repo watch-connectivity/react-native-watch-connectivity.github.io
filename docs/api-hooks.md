@@ -35,7 +35,7 @@ function MyComponent() {
 
 ## usePaired
 
-Is the phone paired with an iWatch?
+Is the phone paired with an Apple Watch?
 
 ```tsx
 import {usePaired} from 'react-native-watch-connectivity';

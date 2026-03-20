@@ -9,7 +9,6 @@ sidebar_label: Messages
 ```typescript
 import {sendMessage} from 'react-native-watch-connectivity';
 
-// Message can have any number of key-value pairs 
 const message = {
     "key": "value"
 }
@@ -32,31 +31,29 @@ sendMessage(message, replyHandler, errorHandler);
 ```typescript
 import {sendMessage} from 'react-native-watch-connectivity';
 
-type Response = {
-    "text": string
+type MessageToWatch = {
+    text: string
 }
 
-const message = {"text": "Hello watch!"}
+type MessageFromWatch = {
+    reply: string
+}
 
-sendMessage<Response>(
-    message, 
+sendMessage<MessageFromWatch, MessageToWatch>(
+    {text: "Hello watch!"},
     response => {
-        console.log(response.text); // Intellisense available
+        console.log(response.reply);
     }
 )
 ```
 
 ## sendMessageData
 
+Send raw data to the watch. Returns a promise that resolves with the base64-decoded response.
+
 ```typescript
 import {sendMessageData} from 'react-native-watch-connectivity';
-import { Buffer } from 'buffer';
 
-sendMessageData(
-    Buffer.from('abc', 'utf-8').toString('base64'),
-    encodedResponse => {
-        let response = Buffer.from(encodedResponse, 'base64').toString('utf8');
-        console.log('Received response', response)
-    }
-);
+const response = await sendMessageData("SGVsbG8gd2F0Y2g=");
+console.log('Received response', response);
 ```

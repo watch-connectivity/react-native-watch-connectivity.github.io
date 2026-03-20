@@ -15,7 +15,7 @@ WatchApp communication methods can be split into two categories:
 
 ## Interactive Messaging
 
-Interactive messaging requires both your app & watch extension to be [reachable](/react-native-watch-connectivity/docs/reachability).
+Interactive messaging requires both your app & watch extension to be [reachable](/docs/reachability).
 
 These methods should be used when information is required immediately & both apps are running in the foreground.
 
@@ -34,10 +34,9 @@ sendMessage({text: "Hello watch!"}, reply => {
 ```typescript
 import { sendMessageData } from "react-native-watch-connectivity";
 
-// Send raw data
-sendMessageData("SGVsbG8gd2F0Y2g=", reply => {
-    console.log(reply); // SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=
-})
+// Send raw data, returns a promise
+const reply = await sendMessageData("SGVsbG8gd2F0Y2g=");
+console.log(reply); // SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=
 ```
 
 ### Receive/Reply to Messages 
@@ -70,7 +69,7 @@ the content is delivered. You do not need both apps to be reachable in order to 
 
 ### User Info
 
-User info differs from [Application Context](/react-native-watch-connectivity/docs/communication#application-context) in that nothing is overridden. You will need to handle each piece of user info in order.
+User info differs from [Application Context](/docs/communication#application-context) in that nothing is overridden. You will need to handle each piece of user info in order.
 
 This library will cache any user info received before a user info event handler is registered. This solves an issue whereby user info could be missed whilst React Native is initialising. 
 
@@ -112,7 +111,7 @@ transferCurrentComplicationUserInfo({key: 'value'})
 Application context should be used when only the *latest* information is required. Once the Watch App or Companion App
 is launched the data will be received.
 
-Application context differs from [User info](/react-native-watch-connectivity/docs/communication#user-info) in that the newest Application Context
+Application context differs from [User info](/docs/communication#user-info) in that the newest Application Context
 delivery overwrites the last, whereas each User Info message forms a queue.
 
 #### Send application context to the watch

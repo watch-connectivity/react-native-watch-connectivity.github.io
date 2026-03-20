@@ -12,40 +12,17 @@ File events are emitted when a transfer is `started`, `finished`, makes `progres
 
 ```ts
 interface FileTransferEvent {
-    // Total number of bytes that will be transferred.
     bytesTotal: number;
-
-    // Number of bytes transferred.
     bytesTransferred: number;
-    
-    // When did the file finish transferring?
     endTime: Date | null;
-    
-    // Possible file transfer error.
     error: Error | null;
-    
-    // Estimated num. seconds remaining for file to transfer.
     estimatedTimeRemaining: number | null;
-    
-    // bytesTransferred / bytesTotal e.g. 0.5
     fractionCompleted: number;
-    
-    // Every file transfer is assigned a unique identifier
     id: string;
-    
-    // User assigned metadata when transferring the file.
     metadata: Record<string, unknown>;
-    
-    // When did the transfer begin?
     startTime: Date;
-    
-    // The rate at which the file is transferring.
     throughput: number | null;
-    
-    // Indicates why this event was sent.
     type: 'error' | 'finished' | 'progress' | 'started';
-    
-    // The URI of the file being transferred from the React Native app. 
     uri: string;
 }
 ```
@@ -56,15 +33,13 @@ interface FileTransferEvent {
 import {watchEvents} from 'react-native-watch-connectivity'
 
 watchEvents.addListener('file', event => {
-    // ...
     console.log(event.type);
-    // ...
 })
 ```
 
 ## `application-context`
 
-Application context events are emitted when the watch updates the application context. If using TypesScript you can define your own Application Context type for intellisense support.
+Emitted when the watch updates the application context.
 
 ### Usage
 
@@ -77,7 +52,7 @@ interface CustomApplicationContext {
 }
 
 const unsubscribe = watchEvents.addListener<CustomApplicationContext>(
-  "application-context", 
+  "application-context",
   event => {
     console.log(event.x, event.y);
   }
@@ -90,7 +65,7 @@ unsubscribe();
 
 ## `user-info`
 
-User info events are emitted when the watch sends a user info message. If using TypesScript you can define your own User Info type for intellisense support.
+Emitted when the watch sends user info. The callback receives an array of user info items, including any received before the React Native app initialised.
 
 ### Usage
 
@@ -103,9 +78,11 @@ interface CustomUserInfo {
 }
 
 const unsubscribe = watchEvents.addListener<CustomUserInfo>(
-  "user-info", 
-  event => {
-    console.log(event.x, event.y);
+  "user-info",
+  items => {
+    items.forEach(item => {
+      console.log(item.x, item.y);
+    });
   }
 )
 
@@ -116,7 +93,7 @@ unsubscribe();
 
 ## `reachability`
 
-Updates when reachability changes. If reachable, then you can use [interactive messaging](/react-native-watch-connectivity/docs/communication#interactive-messaging) to communicate with the watch.
+Updates when reachability changes. If reachable, you can use [interactive messaging](/docs/communication#interactive-messaging) to communicate with the watch.
 
 ### Usage
 
@@ -124,7 +101,7 @@ Updates when reachability changes. If reachable, then you can use [interactive m
 import {watchEvents} from 'react-native-watch-connectivity'
 
 const unsubscribe = watchEvents.addListener(
-  "reachability", 
+  "reachability",
   (reachable: boolean) => {
     console.log(reachable ? 'is reachable' : 'not reachable')
   }
@@ -135,7 +112,7 @@ unsubscribe();
 
 ## `message`
 
-Message events are received when the watch sends an interactive message. The callback includes a function that can be used to reply to the message
+Received when the watch sends an interactive message. The callback includes a function that can be used to reply to the message.
 
 ### Usage
 
@@ -147,10 +124,12 @@ interface MessageFromWatch {
 }
 
 const unsubscribe = watchEvents.addListener<MessageFromWatch>(
-    "message", 
-    (message: MessageFromWatch, reply) => {
+    "message",
+    (message, reply) => {
         console.log(message.text);
-        reply({text: 'thanks watch!'})
+        if (reply) {
+            reply({text: 'thanks watch!'});
+        }
     }
 )
 
@@ -159,7 +138,7 @@ unsubscribe();
 
 ## `installed`
 
-Fires when the companion Apple Watch is installed/uninstalled.
+Fires when the companion Apple Watch app is installed or uninstalled.
 
 ### Usage
 
@@ -167,7 +146,7 @@ Fires when the companion Apple Watch is installed/uninstalled.
 import {watchEvents} from 'react-native-watch-connectivity'
 
 const unsubscribe = watchEvents.addListener(
-  "installed", 
+  "installed",
   (installed: boolean) => {
     console.log(installed ? 'watch app is installed' : 'watch app not installed')
   }
@@ -178,7 +157,7 @@ unsubscribe();
 
 ## `paired`
 
-Fires when pairing status changes. E.g. if watch is unpaired from the phone.
+Fires when pairing status changes, e.g. if the watch is unpaired from the phone.
 
 ### Usage
 
@@ -186,9 +165,163 @@ Fires when pairing status changes. E.g. if watch is unpaired from the phone.
 import {watchEvents} from 'react-native-watch-connectivity'
 
 const unsubscribe = watchEvents.addListener(
-  "paired", 
+  "paired",
   (paired: boolean) => {
     console.log(paired ? 'phone is paired with a watch' : 'phone is NOT paired with a watch')
+  }
+)
+
+unsubscribe();
+```
+
+## `file-received`
+
+Emitted when file(s) are received from the watch. The callback receives an array of received file payloads.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "file-received",
+  files => {
+    files.forEach(file => {
+      console.log('Received file:', file);
+    });
+  }
+)
+
+unsubscribe();
+```
+
+## `activation-error`
+
+Emitted when the WCSession fails to activate.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "activation-error",
+  error => {
+    console.error('Session activation failed:', error);
+  }
+)
+
+unsubscribe();
+```
+
+## `application-context-error`
+
+Emitted when sending application context fails.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "application-context-error",
+  error => {
+    console.error('Failed to send application context:', error);
+  }
+)
+
+unsubscribe();
+```
+
+## `application-context-received-error`
+
+Emitted when receiving application context fails.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "application-context-received-error",
+  error => {
+    console.error('Failed to receive application context:', error);
+  }
+)
+
+unsubscribe();
+```
+
+## `user-info-error`
+
+Emitted when sending user info fails.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "user-info-error",
+  error => {
+    console.error('Failed to send user info:', error);
+  }
+)
+
+unsubscribe();
+```
+
+## `file-received-error`
+
+Emitted when receiving file(s) from the watch fails.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "file-received-error",
+  error => {
+    console.error('Failed to receive file:', error);
+  }
+)
+
+unsubscribe();
+```
+
+## `session-became-inactive`
+
+Emitted when the WCSession becomes inactive. This can happen when the user switches to a different Apple Watch.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "session-became-inactive",
+  payload => {
+    console.log('Session became inactive');
+  }
+)
+
+unsubscribe();
+```
+
+## `session-did-deactivate`
+
+Emitted when the WCSession is deactivated. You should reactivate the session after handling this event.
+
+### Usage
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity'
+
+const unsubscribe = watchEvents.addListener(
+  "session-did-deactivate",
+  payload => {
+    console.log('Session deactivated');
   }
 )
 
