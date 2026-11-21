@@ -9,6 +9,7 @@ import styles from './styles.module.css';
 function Home() {
     const {siteConfig} = useDocusaurusContext();
     const imgUrl = useBaseUrl("img/react-watchkit.png");
+    const tiwtorUrl = useBaseUrl("img/tiwtor.svg");
 
     return (
         <Layout title={siteConfig.title} description={siteConfig.tagline}>
@@ -29,6 +30,20 @@ function Home() {
                     </div>
                 </div>
             </main>
+            <section className={styles.sponsors}>
+                <div className="container">
+                    <h2>Sponsors</h2>
+                    <a href="https://www.tiwtor.app">
+                        <img src={tiwtorUrl} alt="Tiwtor — learn Welsh your way" />
+                    </a>
+                    <p>
+                        Development of this library is currently sponsored by{' '}
+                        <a href="https://www.tiwtor.app">Tiwtor</a> — a language
+                        learning toolkit for self-driven learners, currently
+                        focused on Welsh.
+                    </p>
+                </div>
+            </section>
         </Layout>
     );
 }
