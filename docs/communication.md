@@ -4,138 +4,176 @@ title: Communication
 sidebar_label: Communication
 ---
 
-WatchApp communication methods can be split into two categories:
+There are two ways to communicate with the watch app:
 
 - Interactive messaging
     - Messages
     - Message data
 - Background transfers
-    - User Info
-    - Application Context
+    - User info
+    - Complication user info
+    - Application context
+    - Files (see the [Files guide](./guides-files.md))
 
-## Interactive Messaging
+## Interactive messaging
 
-Interactive messaging requires both your app & watch extension to be [reachable](/docs/reachability).
+Interactive messaging needs the watch to be [reachable](./reachability.md#reachability). Use it when the other side needs the information now.
 
-These methods should be used when information is required immediately & both apps are running in the foreground.
+### Send messages
 
-### Send Messages
+```ts
+import {sendMessage} from 'react-native-watch-connectivity';
 
-```typescript
-import { sendMessage } from "react-native-watch-connectivity";
-
-sendMessage({text: "Hello watch!"}, reply => {
-    console.log(reply); // {"text": "Hello React Native app!"}
-}); 
+sendMessage({text: 'Hello watch!'}, reply => {
+    console.log(reply); // {text: 'Hello React Native app!'}
+});
 ```
 
-### Send Message Data
+`sendMessage` does not return a promise. Pass a third argument to handle errors. It receives a [`WatchError`](./errors.md):
 
-```typescript
-import { sendMessageData } from "react-native-watch-connectivity";
+```ts
+import {sendMessage} from 'react-native-watch-connectivity';
 
-// Send raw data, returns a promise
-const reply = await sendMessageData("SGVsbG8gd2F0Y2g=");
-console.log(reply); // SGVsbG8gcmVhY3QgbmF0aXZlIGFwcCE=
+sendMessage(
+    {text: 'Hello watch!'},
+    reply => console.log(reply),
+    error => {
+        if (error.code === 'not-reachable') {
+            // The watch app is not in the foreground. Try a background transfer instead.
+        }
+    }
+);
 ```
 
-### Receive/Reply to Messages 
+Without an error callback, the library logs the error with `console.warn`.
 
-You can also receive & reply to messages from the watch.
+### Send message data
 
-```typescript
+`sendMessageData` sends a string as bytes, encoded as UTF-8 by default. It resolves with the watch's reply bytes as a string, one character for each byte. For an ASCII reply, that is the reply's text.
+
+```ts
+import {sendMessageData} from 'react-native-watch-connectivity';
+
+const reply = await sendMessageData('Hello watch!');
+console.log(reply); // 'Hello React Native app!'
+```
+
+### Receive and reply to messages
+
+```ts
 import {watchEvents} from 'react-native-watch-connectivity';
 
 const unsubscribe = watchEvents.on('message', (message, reply) => {
     console.log('received message from watch', message);
-    reply({text: "Thanks watch!"});
-})
-```
-
-Or for message data
-
-```typescript
-import {watchEvents} from 'react-native-watch-connectivity';
-
-const unsubscribe = watchEvents.on('message-data', (data, reply) => {
-    console.log('received message data from watch', data);
-})
-```
-
-## Background Transfers
-
-These methods should be used when information is not required immediately. The OS is responsible for determining when
-the content is delivered. You do not need both apps to be reachable in order to use these methods.
-
-### User Info
-
-User info differs from [Application Context](/docs/communication#application-context) in that nothing is overridden. You will need to handle each piece of user info in order.
-
-This library will cache any user info received before a user info event handler is registered. This solves an issue whereby user info could be missed whilst React Native is initialising. 
-
-#### Receive user info 
-
-```typescript jsx
-import {watchEvents} from 'react-native-watch-connectivity';
-
-const unsubscribe = watchEvents.on('user-info', userInfo => {
-    // Emits an array of user info which will include any user info received before the React Native app initialises.
-    userInfo.map(userInfo => {
-       console.log('received user info', userInfo);
-    })
+    if (reply) {
+        reply({text: 'Thanks watch!'});
+    }
 });
 ```
 
-#### Transfer user info to the watch
+`reply` is `null` when the watch did not ask for a reply.
 
-To send user info to the watch you can use `transferUserInfo`:
+The library does not pass message data from the watch (`sendMessageData` on the watch) to JavaScript. Send a dictionary with `sendMessage` from the watch instead.
+
+## Background transfers
+
+Use background transfers when the information is not needed at once. The system decides when to deliver it. The watch does not need to be reachable.
+
+### User info
+
+Each user info transfer is queued and delivered in order. Nothing is replaced. Compare this with [application context](#application-context), where each context replaces the last.
+
+The library keeps user info that arrives before you add a `user-info` listener, for example while React Native starts. The first call to your listener includes it.
+
+#### Receive user info
 
 ```ts
-import { transferUserInfo } from 'react-native-watch-connectivity' 
+import {watchEvents} from 'react-native-watch-connectivity';
 
-transferUserInfo({key: 'value'})
+const unsubscribe = watchEvents.on('user-info', items => {
+    // An array. The first call includes user info that arrived before the listener.
+    items.forEach(item => {
+        console.log('received user info', item);
+    });
+});
 ```
 
-To send high priority user info, for example data that should be displayed within a Complication, on the watch face, as 
-soon as possible you can use `transferCurrentComplicationUserInfo`
+#### Send user info to the watch
 
 ```ts
-import { transferCurrentComplicationUserInfo } from 'react-native-watch-connectivity' 
+import {transferUserInfo} from 'react-native-watch-connectivity';
 
-transferCurrentComplicationUserInfo({key: 'value'})
+transferUserInfo({key: 'value'});
 ```
 
+`transferUserInfo` returns nothing. If a transfer fails, the [`user-info-error`](./api-events.md#user-info-error) event fires.
 
-### Application Context
+### Complication user info
 
-Application context should be used when only the *latest* information is required. Once the Watch App or Companion App
-is launched the data will be received.
+To update a complication on the watch face, send the data with `transferCurrentComplicationUserInfo`. The system wakes the watch app to receive it, but only a limited number of times each day. See [Complications](./complications.md).
 
-Application context differs from [User info](/docs/communication#user-info) in that the newest Application Context
-delivery overwrites the last, whereas each User Info message forms a queue.
+```ts
+import {transferCurrentComplicationUserInfo} from 'react-native-watch-connectivity';
+
+transferCurrentComplicationUserInfo({streak: 12});
+```
+
+### Application context
+
+Use application context when only the latest state matters, such as settings or a sign-in token. Each new context replaces the last. The other device receives the latest one when its app next runs.
+
+The phone keeps the context it sent and the context the watch sent apart. See [Application Context](./application-context.md) for the full API.
 
 #### Send application context to the watch
 
-```typescript
-import { updateApplicationContext } from 'react-native-watch-connectivity' 
+`updateApplicationContext` returns a promise that rejects with a `WatchError` if the system refuses the context.
 
-updateApplicationContext({key: "value"}) 
+```ts
+import {updateApplicationContext} from 'react-native-watch-connectivity';
+
+await updateApplicationContext({key: 'value'});
 ```
 
-#### Get the latest application context
+#### Read the context the watch sent
 
-```typescript
-import { getApplicationContext } from 'react-native-watch-connectivity'
+```ts
+import {getReceivedApplicationContext} from 'react-native-watch-connectivity';
 
-const applicationContext = await getApplicationContext() 
+const contextFromWatch = await getReceivedApplicationContext();
 ```
 
-#### Application context events
+#### Read the context this phone sent
 
-```typescript
-import { watchEvents } from "react-native-watch-connectivity";
+```ts
+import {getApplicationContext} from 'react-native-watch-connectivity';
 
-const unsubscribe = watchEvents.addListener('application-context', context => {
-    console.log('context', context)
-})
+const contextSentToWatch = await getApplicationContext();
+```
+
+#### Listen for context from the watch
+
+```ts
+import {watchEvents} from 'react-native-watch-connectivity';
+
+const unsubscribe = watchEvents.on('application-context', context => {
+    console.log('context from the watch', context);
+});
+```
+
+In a component, use [`useApplicationContext`](./api-hooks.md#useapplicationcontext).
+
+## Handling errors
+
+Every error the library gives you is a [`WatchError`](./errors.md) with a stable string `code`. This includes promise rejections, the `sendMessage` error callback, error events and a failed file transfer's `error`.
+
+```ts
+import {isWatchError, sendMessageData} from 'react-native-watch-connectivity';
+
+try {
+    await sendMessageData('ping');
+} catch (error) {
+    if (isWatchError(error, 'not-reachable')) {
+        // try again when the watch app is open
+    }
+}
 ```
